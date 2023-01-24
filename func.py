@@ -16,7 +16,7 @@ def fill(matrix):
                 matrix[i][j] = choice(ascii_uppercase)
 
 
-def save(matrix, words, path=''):
+def save(matrix, words, path):
     shuffle(words)
     tpl = DocxTemplate('tpl.docx')
     context = {
@@ -25,8 +25,8 @@ def save(matrix, words, path=''):
         'words': [len(words), words]
     }
     tpl.render(context)
-    file_name = f'letter_soup_{datetime.now():%d-%m}.docx'
-    tpl.save(f'{path}/{file_name}')
+    file_name = path
+    tpl.save(file_name)
     return file_name
 
 
