@@ -3,6 +3,7 @@ from string import ascii_uppercase
 from docxtpl import DocxTemplate
 from datetime import datetime
 
+
 def show(matrix):
     for i in matrix:
         print(*i)
@@ -14,7 +15,8 @@ def fill(matrix):
             if matrix[i][j] == '*':
                 matrix[i][j] = choice(ascii_uppercase)
 
-def save(matrix, words):
+
+def save(matrix, words, path=''):
     shuffle(words)
     tpl = DocxTemplate('tpl.docx')
     context = {
@@ -23,7 +25,10 @@ def save(matrix, words):
         'words': [len(words), words]
     }
     tpl.render(context)
-    tpl.save(f'letter_soup_{datetime.now():%d-%m}.docx')
+    file_name = f'letter_soup_{datetime.now():%d-%m}.docx'
+    tpl.save(f'{path}/{file_name}')
+    return file_name
+
 
 def gen_matrix(num=15):
     return [['*' for row in range(num + 5)] for col in range(num)]
@@ -89,9 +94,8 @@ def put_word(matrix, word, orientation, coords):
     return matrix
 
 
-def main():
+def run(words):
     matrix = gen_matrix()
-    words = input_words()
     orientations = ['h', 'v']
     for i in range(len(words)):
         orientation = orientations[i % len(orientations)]
@@ -99,8 +103,11 @@ def main():
         coords = get_coords(matrix, word, orientation)
         matrix = put_word(matrix, word, orientation, coords)
     fill(matrix)
-    show(matrix)
-    save(matrix, words)
+    # show(matrix)
+    # save(matrix, words)
+    return matrix
+
 
 if __name__ == '__main__':
-    main()
+    words = input_words()
+    matrix = run(words)
