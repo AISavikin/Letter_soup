@@ -14,11 +14,12 @@ class LetterSoupApp(customtkinter.CTk):
 
         w = self.winfo_screenwidth() // 2
         h = self.winfo_screenheight() // 2
-        h_window = 950
+
+        h_window = 930
         self.title("Суп из букв")
         self.geometry(f'{h_window}x50+{w - h_window // 2}+{h}')
         self.btn_start = customtkinter.CTkButton(master=self, command=self.start_btn_event, text="Сгенерировать")
-        self.btn_start.grid(row=0, column=1, sticky="e")
+        self.btn_start.grid(row=0, column=1)
         self.entry = customtkinter.CTkEntry(self, width=750)
         self.entry.grid(row=0, column=0, padx=10, pady=10)
         self.bind('<Return>', self.start_btn_event)
@@ -27,6 +28,8 @@ class LetterSoupApp(customtkinter.CTk):
         words = self.entry.get().split()
         words.sort(key=len, reverse=True)
         path = filedialog.askdirectory()
+        if not path:
+            return
         matrix = run(words)
         file_name = save(matrix, words, path)
         self.entry.delete(0, tkinter.END)
