@@ -21,8 +21,9 @@ class LetterSoupApp(customtkinter.CTk):
         self.btn_start.grid(row=0, column=1, sticky="e")
         self.entry = customtkinter.CTkEntry(self, width=750)
         self.entry.grid(row=0, column=0, padx=10, pady=10)
+        self.bind('<Return>', self.start_btn_event)
 
-    def start_btn_event(self):
+    def start_btn_event(self, *args):
         words = self.entry.get().split()
         words.sort(key=len, reverse=True)
         path = filedialog.askdirectory()
@@ -30,8 +31,6 @@ class LetterSoupApp(customtkinter.CTk):
         file_name = save(matrix, words, path)
         self.entry.delete(0, tkinter.END)
         tkinter.messagebox.showinfo(title='Файл сохранён', message=f'Файл "{file_name}" сохранен в папке {path}')
-
-        print(self.winfo_screenwidth())
 
 
 def main():
